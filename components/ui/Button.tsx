@@ -45,8 +45,9 @@ export function Button({
   )
 
   if (asChild && React.isValidElement(children)) {
-    return React.cloneElement(children as React.ReactElement<any>, {
-      className: cn(mergedClassName, children.props.className),
+    const child = children as React.ReactElement<{ className?: string }>
+    return React.cloneElement(child, {
+      className: cn(mergedClassName, child.props.className),
       ...props,
     })
   }
