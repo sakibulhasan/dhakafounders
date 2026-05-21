@@ -13,19 +13,16 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-white/60">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white/75 backdrop-blur-xl border-b border-slate-200/40 shadow-sm transition-all duration-300">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
 
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-8 h-8 rounded-lg gradient-blue flex items-center justify-center shadow-md group-hover:scale-105 transition-transform duration-200">
-            <Zap className="w-4 h-4 text-white" fill="currentColor" />
+        <Link href="/" className="flex items-center gap-2.5 group">
+          <div className="w-9 h-9 rounded-xl gradient-blue flex items-center justify-center shadow-md shadow-primary/20 group-hover:scale-105 group-hover:shadow-primary/30 transition-all duration-300">
+            <Zap className="w-4.5 h-4.5 text-white" fill="currentColor" />
           </div>
-          <span
-            className="text-lg font-bold text-[#1F2532]"
-            style={{ fontFamily: 'var(--font-heading)' }}
-          >
-            Dhaka<span className="text-[#2A81C7]">Founders</span>
+          <span className="text-xl font-extrabold text-secondary tracking-tight font-heading">
+            Dhaka<span className="text-primary group-hover:text-primary-dark transition-colors duration-200">Founders</span>
           </span>
         </Link>
 
@@ -38,8 +35,8 @@ export function Navbar() {
                 className={cn(
                   'px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200',
                   pathname === href
-                    ? 'bg-[#2A81C7]/10 text-[#2A81C7] font-semibold'
-                    : 'text-[#1F2532]/70 hover:text-[#1F2532] hover:bg-slate-100'
+                    ? 'bg-primary/10 text-primary font-semibold'
+                    : 'text-secondary/70 hover:text-secondary hover:bg-secondary/5'
                 )}
               >
                 {label}
@@ -60,7 +57,7 @@ export function Navbar() {
 
         {/* Mobile Toggle */}
         <button
-          className="md:hidden p-2 rounded-lg text-[#1F2532] hover:bg-slate-100 transition-colors"
+          className="md:hidden p-2 rounded-lg text-secondary hover:bg-secondary/5 transition-colors"
           onClick={() => setMobileOpen((o) => !o)}
           aria-label="Toggle mobile menu"
         >
@@ -70,7 +67,7 @@ export function Navbar() {
 
       {/* Mobile Drawer */}
       {mobileOpen && (
-        <div className="md:hidden glass border-t border-white/60 px-4 pb-6 pt-2 animate-fade-in">
+        <div className="md:hidden bg-white/95 backdrop-blur-xl border-t border-slate-200/50 shadow-lg px-4 pb-6 pt-2 animate-fade-in">
           <ul className="flex flex-col gap-1 mb-4">
             {NAV_LINKS.map(({ label, href }) => (
               <li key={href}>
@@ -80,8 +77,8 @@ export function Navbar() {
                   className={cn(
                     'block px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200',
                     pathname === href
-                      ? 'bg-[#2A81C7]/10 text-[#2A81C7] font-semibold'
-                      : 'text-[#1F2532]/70 hover:text-[#1F2532] hover:bg-slate-100'
+                      ? 'bg-primary/10 text-primary font-semibold'
+                      : 'text-secondary/70 hover:text-secondary hover:bg-secondary/5'
                   )}
                 >
                   {label}

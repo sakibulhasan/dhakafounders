@@ -1,7 +1,28 @@
 @import "tailwindcss";
 
 @theme {
-  /* Brand Colors */
+  /* Primary (Primary Blue from brand-dna.md) */
+  --color-primary: #2A81C7;
+  --color-primary-dark: #1e6aab;
+  --color-primary-light: #4a9fd9;
+
+  /* Secondary (Dark Slate from brand-dna.md) */
+  --color-secondary: #1F2532;
+  --color-secondary-light: #2d3548;
+  --color-secondary-dark: #11141b;
+
+  /* Accent (Energetic Blue/Highlight) */
+  --color-accent: #2A81C7;
+  --color-accent-dark: #1e6aab;
+  --color-accent-light: #4a9fd9;
+
+  /* Base/System Colors */
+  --color-muted: #6b7a99;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f8fafc;
+  --color-border: #e2e8f0;
+
+  /* Legacy Brand Colors (For Backwards Compatibility) */
   --color-brand-blue: #2A81C7;
   --color-brand-blue-dark: #1e6aab;
   --color-brand-blue-light: #4a9fd9;
@@ -14,6 +35,7 @@
   /* Fonts */
   --font-heading: "Plus Jakarta Sans", system-ui, sans-serif;
   --font-body: "Inter", system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, sans-serif;
 
   /* Spacing extras */
   --radius-xl: 1rem;
@@ -31,8 +53,8 @@ html {
 
 body {
   font-family: var(--font-body);
-  background-color: #ffffff;
-  color: #1F2532;
+  background-color: var(--color-surface);
+  color: var(--color-secondary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -47,11 +69,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .gradient-blue {
-  background: linear-gradient(135deg, #2A81C7 0%, #1e6aab 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #2A81C7 0%, #1e6aab 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -135,9 +157,9 @@ h1, h2, h3, h4, h5, h6 {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: var(--color-surface-muted);
 }
 ::-webkit-scrollbar-thumb {
-  background: #2A81C7;
+  background: var(--color-primary);
   border-radius: 3px;
 }

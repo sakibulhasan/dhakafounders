@@ -1,3 +1,4 @@
+import * as React from 'react'
 import { cn } from '@/lib/utils'
 
 type ButtonVariant = 'primary' | 'outline' | 'ghost'
@@ -12,11 +13,11 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    'bg-[#2A81C7] hover:bg-[#1e6aab] text-white shadow-lg shadow-[#2A81C7]/25 hover:shadow-[#2A81C7]/40 hover:shadow-xl',
+    'bg-primary hover:bg-primary-dark text-white shadow-lg shadow-primary/20 hover:shadow-primary/30 hover:-translate-y-0.5 active:translate-y-0',
   outline:
-    'border-2 border-[#2A81C7] text-[#2A81C7] hover:bg-[#2A81C7] hover:text-white bg-transparent',
+    'border-2 border-primary text-primary hover:bg-primary hover:text-white bg-transparent hover:-translate-y-0.5 active:translate-y-0',
   ghost:
-    'text-[#2A81C7] hover:bg-[#2A81C7]/10 bg-transparent',
+    'text-primary hover:bg-primary/10 bg-transparent hover:-translate-y-0.5 active:translate-y-0',
 }
 
 const sizeClasses: Record<ButtonSize, string> = {
@@ -30,23 +31,30 @@ export function Button({
   size = 'md',
   className,
   children,
+  asChild,
   ...props
 }: ButtonProps) {
+  const mergedClassName = cn(
+    'inline-flex items-center justify-center gap-2 rounded-xl font-semibold font-heading',
+    'transition-all duration-300 ease-out cursor-pointer',
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2',
+    'disabled:opacity-50 disabled:cursor-not-allowed',
+    variantClasses[variant],
+    sizeClasses[size],
+    className
+  )
+
+  if (asChild && React.isValidElement(children)) {
+    return React.cloneElement(children as React.ReactElement<any>, {
+      className: cn(mergedClassName, children.props.className),
+      ...props,
+    })
+  }
+
   return (
-    <button
-      className={cn(
-        'inline-flex items-center justify-center gap-2 rounded-xl font-semibold',
-        'transition-all duration-200 ease-out cursor-pointer',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2A81C7] focus-visible:ring-offset-2',
-        'disabled:opacity-50 disabled:cursor-not-allowed',
-        'font-[var(--font-heading)]',
-        variantClasses[variant],
-        sizeClasses[size],
-        className,
-      )}
-      {...props}
-    >
+    <button className={mergedClassName} {...props}>
       {children}
     </button>
   )
 }
+
