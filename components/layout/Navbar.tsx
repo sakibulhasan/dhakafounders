@@ -127,6 +127,14 @@ export function Navbar() {
               </li>
             ))}
           </ul>
+         <Link href="/directory" className={cn(
+           'ml-4 inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200',
+           pathname === '/directory'
+             ? 'bg-primary/10 text-primary'
+             : 'text-secondary/70 hover:text-secondary hover:bg-secondary/5'
+         )}>
+           Directory
+         </Link>
 
           {/* Mobile Signed Out */}
           {isLoaded && !isSignedIn && (
