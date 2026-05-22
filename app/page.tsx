@@ -4,8 +4,10 @@ import { FeaturesSection } from '@/components/home/FeaturesSection'
 import { MOCK_STARTUPS } from '@/lib/constants'
 import { StartupCard } from '@/components/directory/StartupCard'
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, CheckCircle2, XCircle } from 'lucide-react'
 import type { Metadata } from 'next'
+import { createClient } from '@/utils/supabase/server'
+import { cookies } from 'next/headers'
 
 export const metadata: Metadata = {
   title: 'Dhaka Founders — Bangladesh\'s Premier Startup Directory',
@@ -13,14 +15,58 @@ export const metadata: Metadata = {
     'Discover the builders shaping Bangladesh\'s tech ecosystem. Connect with founders, investors, and startups across Dhaka and beyond.',
 }
 
-export default function HomePage() {
+// ── Supabase connection probe ────────────────────────────────────────────────
+async function testSupabaseConnection(): Promise<{ ok: boolean; message: string }> {
+  try {
+    const cookieStore = await cookies()
+    const supabase = createClient(cookieStore)
+
+    // Test connection by checking the auth session (works without any tables)
+    const { error } = await supabase.auth.getSession()
+
+    if (!error) {
+      console.log('✅ Supabase connection successful — auth service is reachable.')
+      return { ok: true, message: 'Supabase connection successful' }
+    }
+
+    console.error('❌ Supabase auth connection error:', error.message)
+    return { ok: false, message: error.message }
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err)
+    if (msg.includes('Dynamic server usage') || msg.includes('dynamic-server-error') || (err instanceof Error && err.constructor.name === 'DynamicServerError')) {
+      throw err
+    }
+    console.error('❌ Supabase connection failed:', msg)
+    return { ok: false, message: msg }
+  }
+}
+// ────────────────────────────────────────────────────────────────────────────
+
+export default async function HomePage() {
   const featuredStartups = MOCK_STARTUPS.slice(0, 3)
+  const dbStatus = await testSupabaseConnection()
 
   return (
     <>
       <HeroSection />
       <StatsSection />
       <FeaturesSection />
+
+      {/* ── Supabase Connection Status Badge (dev indicator) ── */}
+      <div className="flex justify-center py-4 bg-white">
+        <div
+          className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold border ${
+            dbStatus.ok
+              ? 'bg-emerald-50 border-emerald-200 text-emerald-700'
+              : 'bg-red-50 border-red-200 text-red-700'
+          }`}
+        >
+          {dbStatus.ok
+            ? <CheckCircle2 className="w-3.5 h-3.5" />
+            : <XCircle className="w-3.5 h-3.5" />}
+          Supabase: {dbStatus.message}
+        </div>
+      </div>
 
       {/* Featured Startups Preview */}
       <section className="py-24 bg-white">

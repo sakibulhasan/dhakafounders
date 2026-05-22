@@ -1,4 +1,5 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
+import { createClient } from '@/utils/supabase/middleware'
 
 const isDashboardRoute = createRouteMatcher(['/dashboard(.*)'])
 
@@ -6,6 +7,11 @@ export default clerkMiddleware(async (auth, req) => {
   if (isDashboardRoute(req)) {
     await auth.protect()
   }
+
+  // Refresh Supabase session
+  const { supabase, supabaseResponse } = createClient(req)
+  await supabase.auth.getUser()
+  return supabaseResponse
 })
 
 export const config = {
@@ -16,3 +22,4 @@ export const config = {
     '/(api|trpc)(.*)',
   ],
 }
+
