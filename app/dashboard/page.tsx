@@ -104,14 +104,14 @@ export default function DashboardPage() {
               Here&apos;s what&apos;s happening with your startup today.
             </p>
           </div>
-          <button
-            id="dashboard-list-startup-btn"
+          <Link
+            href="/dashboard/profile"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#2A81C7] hover:bg-[#1e6aab] text-white text-sm font-semibold transition-all duration-200 shadow-md shadow-[#2A81C7]/25 hover:scale-105 shrink-0"
             style={{ fontFamily: 'var(--font-heading)' }}
           >
-            <PlusCircle className="w-4 h-4" />
-            List your Startup
-          </button>
+            <Settings className="w-4 h-4" />
+            Update Company Profile
+          </Link>
         </div>
 
         {/* Quick Stats */}
